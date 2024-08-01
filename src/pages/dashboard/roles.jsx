@@ -156,7 +156,14 @@ export function Roles() {
   
 
   const handleSave = async () => {
-    if (!validateForm()) return;
+    const isValid = validateForm(selectedRole);
+    if (!isValid) {
+      Toast.fire({
+        icon: 'error',
+        title: 'Por favor, completa todos los campos correctamente.'
+      });
+      return;
+    }
 
     try {
       // Si el rol es "Administrador", aseguramos que tenga el permiso "Roles"

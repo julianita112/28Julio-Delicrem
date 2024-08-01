@@ -127,7 +127,7 @@ export function Usuarios() {
           title: '¡Eliminado! El usuario ha sido eliminado.'
         });
       } catch (error) {
-        console.error("Error deleting usuario:", error);
+        console.error("Hubo un problema al eliminar el usuario:", error);
         Toast.fire({
           icon: 'error',
           title: 'Error al eliminar usuario. Por favor, inténtalo de nuevo.'

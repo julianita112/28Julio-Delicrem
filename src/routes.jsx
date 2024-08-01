@@ -63,6 +63,16 @@ const allRoutes = [
         path: "/roles",
         element: <Roles />,
       },
+      
+    ],
+  },
+
+  {
+    title: "Usuarios",
+    layout: "dashboard",
+    visible: true,
+    pages: [
+     
       {
         icon: <UserGroupIcon {...icon} />,
         name: "Usuarios",

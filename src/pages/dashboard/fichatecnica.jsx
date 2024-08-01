@@ -17,6 +17,18 @@ import { useState, useEffect } from "react";
 import axios from "../../utils/axiosConfig";
 import Swal from 'sweetalert2';
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  }
+});
+
 export function FichasTecnicas() {
   const [fichas, setFichas] = useState([]);
   const [productos, setProductos] = useState([]);
@@ -136,10 +148,16 @@ export function FichasTecnicas() {
       try {
         await axios.delete(`http://localhost:3000/api/fichastecnicas/${ficha.id_ficha}`);
         fetchFichas();
-        Swal.fire('¡Eliminado!', 'La ficha técnica ha sido eliminada.', 'success');
+        Toast.fire({
+          icon: 'success',
+          title: '¡Eliminado! La ficha técnica ha sido eliminada.'
+        });
       } catch (error) {
-        console.error("Error deleting ficha:", error);
-        Swal.fire('Error', 'Hubo un problema al eliminar la ficha técnica.', 'error');
+        console.error("Hubo un problema al eliminar el usuario:", error);
+        Toast.fire({
+          icon: 'error',
+          title: 'Error al eliminar usuario. Por favor, inténtalo de nuevo.'
+        });
       }
     }
   };
@@ -158,10 +176,16 @@ export function FichasTecnicas() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-const handleSave = async () => {
-  if (!validateForm()) {
-    return;
-  }
+
+  const handleSave = async () => {
+    const isValid = validateForm(selectedFicha);
+    if (!isValid) {
+      Toast.fire({
+        icon: 'error',
+        title: 'Por favor, completa todos los campos correctamente.'
+      });
+      return;
+    }
 
   const fichaToSave = {
     ...selectedFicha,

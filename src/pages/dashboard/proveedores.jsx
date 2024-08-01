@@ -155,8 +155,6 @@ export function Proveedores() {
   
 
   const handleSave = async () => {
-
-    
     if (validateForm()) {
       try {
         if (editMode) {
@@ -178,9 +176,14 @@ export function Proveedores() {
         console.error("Error saving proveedor:", error);
         Swal.fire('Error', 'Hubo un problema al guardar el proveedor.', 'error');
       }
+    } else {
+      Toast.fire({
+        icon: 'error',
+        title: 'Por favor, completa todos los campos correctamente.'
+      });
     }
   };
-
+  
   const validateForm = () => {
     let isValid = true;
     const errors = {};
@@ -221,6 +224,7 @@ export function Proveedores() {
     setFormErrors(errors);
     return isValid;
   };
+  
   
 
   const handleChange = (e) => {

@@ -133,25 +133,16 @@ export function CategoriaInsumos() {
     
 
   const handleSave = async () => {
+    const isValid = validateForm(selectedCategoria);
+    if (!isValid) {
+      Toast.fire({
+        icon: 'error',
+        title: 'Por favor, completa todos los campos correctamente.'
+      });
+      return;
+    }
+  
     try {
-      const regex = /^[a-zA-ZáéíóúüÁÉÍÓÚÜ\s]+$/;
-      const errors = {};
-
-      if (!selectedCategoria.nombre.trim()) {
-        errors.nombre = "Por favor, ingrese el nombre de la categoría de insumos.";
-      } else if (!regex.test(selectedCategoria.nombre)) {
-        errors.nombre = "El nombre solo puede contener letras y espacios.";
-      }
-
-      if (!selectedCategoria.descripcion.trim()) {
-        errors.descripcion = "Por favor, ingrese la descripción de la categoría.";
-      }
-
-      if (Object.keys(errors).length > 0) {
-        setErrors(errors);
-        return;
-      }
-
       if (editMode) {
         await axios.put(`http://localhost:3000/api/categorias_insumo/${selectedCategoria.id_categoria}`, selectedCategoria);
         setOpen(false);
@@ -196,6 +187,25 @@ export function CategoriaInsumos() {
       Swal.fire('Error', 'Hubo un problema al guardar la categoría.', 'error');
     }
   };
+  
+  const validateForm = () => {
+    const regex = /^[a-zA-ZáéíóúüÁÉÍÓÚÜ\s]+$/;
+    const errors = {};
+  
+    if (!selectedCategoria.nombre.trim()) {
+      errors.nombre = "Por favor, ingrese el nombre de la categoría de insumos.";
+    } else if (!regex.test(selectedCategoria.nombre)) {
+      errors.nombre = "El nombre solo puede contener letras y espacios.";
+    }
+  
+    if (!selectedCategoria.descripcion.trim()) {
+      errors.descripcion = "Por favor, ingrese la descripción de la categoría.";
+    }
+  
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;

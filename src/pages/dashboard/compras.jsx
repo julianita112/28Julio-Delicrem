@@ -146,7 +146,7 @@ import {
       if (!validateForm()) {
         Toast.fire({
           icon: 'error',
-          title: 'Por favor, corrija los errores en el formulario.'
+          title: 'Por favor, completa todos los campos correctamente.'
         });
         return;
       }
