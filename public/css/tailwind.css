@@ -246,3 +246,16 @@
 }
 
 
+/* styles.css */
+.error-message {
+  color: red;
+  font-size: 0.875rem; /* text-sm in Tailwind CSS */
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.error-message.show {
+  opacity: 1;
+  transform: translateY(0);
+}
